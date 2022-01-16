@@ -1,0 +1,8 @@
+Day,Start_hour,End_hour
+Monday,12,18
+Tuesday,11,19
+Wednesday,8,18
+Thursday,10,18
+Friday,8,22
+Saturday,8,22
+Sunday,8,20

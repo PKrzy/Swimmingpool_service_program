@@ -1,0 +1,12 @@
+{
+    "Monday": {
+        "Adult": 15,
+        "Kid": 10,
+        "Kid_under_5_years_old": 8,
+        "Disabled": 5,
+        "Pensioner": 10,
+        "Student": 10,
+        "till_hour_promo": 15,
+        "swimming_school": 30
+    }
+}

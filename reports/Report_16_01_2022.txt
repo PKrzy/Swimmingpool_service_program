@@ -1,0 +1,3 @@
+Day, Time, Client, Number, Price
+Tuesday, 13-15, Kid, 2, 48.0
+Wednesday, 8-10, Disabled, 4, 32.0

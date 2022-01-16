@@ -1,0 +1,2 @@
+Day, Time, Client, Number, Price
+Friday, 8-10, Kid, 3, 72.0
