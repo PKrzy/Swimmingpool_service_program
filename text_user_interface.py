@@ -353,6 +353,7 @@ def number_of_tracks(window, pool):
                 7, 10, f"Tracks number cannot be > {max_track_number}")
             window.refresh()
             window.getch()
+            window.clear()
     window.clear()
     return False
 
