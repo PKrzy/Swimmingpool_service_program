@@ -59,14 +59,14 @@ def add_menu_screen(window):
     window.addstr(4, 1, "3. Change work_schedule file")
     window.addstr(5, 1, "4. Change price-list file")
     numbers = [str(item) for item in list(range(1, 5))]
-    while True:
-        input = window.getkey()
+    input = window.getkey()
+    while input != 'q':
         if input in numbers:
             window.clear()
             return input
-        elif input == 'q':
-            window.clear()
-            return False
+        input = window.getkey()
+    window.clear()
+    return False
 
 
 """Change name screen"""
@@ -92,12 +92,11 @@ def name_screen(win, pool):
 
 
 def tracks_screen(win, pool):
-    while True:
+    choice = ''
+    while choice != 'q':
         win.clear()
         win.addstr(7, 12, "Input new number of tracks")
         choice = menu_functions_input(win, 7, 12)
-        if choice == 'q':
-            return False
         try:
             tracks_num = int(choice)
             win.clear()
@@ -111,6 +110,8 @@ def tracks_screen(win, pool):
             win.addstr(7, 6, "Number of tracks must be integer number")
             win.refresh()
             win.getch()
+    win.clear()
+    return False
 
 
 """Screen for adding hours number"""
@@ -139,6 +140,7 @@ def number_hours_screen(win, day, data, start_hour):
             win.addstr(7, 6, "Number of hours must be integer number")
             win.refresh()
             win.getch()
+    win.clear()
     return False
 
 
@@ -146,12 +148,10 @@ def number_hours_screen(win, day, data, start_hour):
 
 
 def work_schedule_file_screen(win, data):
-    while True:
-        win.clear()
-        win.addstr(7, 12, "Input work_schedule file path")
-        choice = menu_functions_input(win, 7, 12)
-        if choice == 'q':
-            return False
+    win.clear()
+    win.addstr(7, 12, "Input work_schedule file path")
+    choice = menu_functions_input(win, 7, 12)
+    while choice != 'q':
         try:
             data.load_new_work_schedule(choice)
             win.clear()
@@ -164,18 +164,20 @@ def work_schedule_file_screen(win, data):
             win.addstr(7, 5, "File does not exist or wrong file format")
             win.refresh()
             win.getch()
+        win.clear()
+        win.addstr(7, 12, "Input work_schedule file path")
+        choice = menu_functions_input(win, 7, 12)
+    return False
 
 
 """Screen for changing prices file"""
 
 
 def prices_file_screen(win, prices):
-    while True:
-        win.clear()
-        win.addstr(7, 12, "Input prices file path")
-        choice = menu_functions_input(win, 7, 12)
-        if choice == 'q':
-            return False
+    win.clear()
+    win.addstr(7, 12, "Input prices file path")
+    choice = menu_functions_input(win, 7, 12)
+    while choice != 'q':
         try:
             prices.load_new_prices(choice)
             win.clear()
@@ -188,6 +190,11 @@ def prices_file_screen(win, prices):
             win.addstr(7, 5, "File does not exist or wrong file format")
             win.refresh()
             win.getch()
+        win.clear()
+        win.addstr(7, 12, "Input prices file path")
+        choice = menu_functions_input(win, 7, 12)
+    win.clear()
+    return False
 
 
 """Chose day screen"""
@@ -205,15 +212,14 @@ def days_of_the_week(window):
     window.addstr(8, 1, "7. Sunday")
     numbers = [str(item) for item in list(range(1, 8))]
     input = window.getkey()
-    while True:
+    while input != 'q':
         if input in numbers:
             window.clear()
             return input
-        elif input == 'q':
-            window.clear()
-            return False
         else:
             input = window.getkey()
+    window.clear()
+    return False
 
 
 """Screen for choosing customer"""
@@ -246,17 +252,15 @@ def people_screen(window, prices_data, day):
 
     numbers = [str(item) for item in list(range(1, 8))]
     input = window.getkey()
-    while True:
+    while input != 'q':
         if input in numbers:
+            client = clients[input]
             window.clear()
-            break
-        elif input == 'q':
-            window.clear()
-            return False
+            return client
         else:
             input = window.getkey()
-    client = clients[input]
-    return client
+    window.clear()
+    return False
 
 
 """Screen for showing current ticket cost"""
@@ -273,7 +277,7 @@ def cost_screen(win, price, num, day, input, prices, integer):
     win.addstr(5, 10, 'Please y to accept or n to discard')
     win.addstr(7, 17, f'It will cost {ticket_cost}')
     key = win.getkey()
-    while True:
+    while key != 'q':
         if key == 'y':
             win.clear()
             win.refresh()
@@ -282,6 +286,9 @@ def cost_screen(win, price, num, day, input, prices, integer):
             win.clear()
             win.refresh()
             return False, ticket_cost
+        key = win.getkey()
+    win.clear()
+    return False, ticket_cost
 
 
 """Screen for adding number of people"""
@@ -290,14 +297,12 @@ def cost_screen(win, price, num, day, input, prices, integer):
 def number_of_people(window, pool):
     max_num = pool.space() + 1
     numbers = [str(item) for item in list(range(1, max_num))]
-    while True:
+    number_of_people = ''
+    while number_of_people != 'q':
         window.clear()
         window.refresh()
         window.addstr(7, 8, f"Input number of people Max: {max_num - 1}")
         number_of_people = menu_functions_input(window, 7, 12)
-        if number_of_people == 'q':
-            window.clear()
-            return False
         try:
             int(number_of_people)
         except Exception:
@@ -314,6 +319,8 @@ def number_of_people(window, pool):
             window.addstr(7, 10, f'Number must be less than {max_num}')
             window.refresh()
             window.getch()
+    window.clear()
+    return False
 
 
 """Screen for adding number of tracks"""
@@ -322,23 +329,32 @@ def number_of_people(window, pool):
 def number_of_tracks(window, pool):
     max_track_number = pool.max_tracks()
     numbers = [str(item) for item in list(range(1, int(max_track_number) + 1))]
-    while True:
+    window.addstr(
+        7, 6, f"Input number of tracks Max number: {max_track_number}")
+    tracks_num = ''
+    while tracks_num != 'q':
         window.addstr(
             7, 6, f"Input number of tracks Max number: {max_track_number}")
         tracks_num = window.getkey()
-        if tracks_num == 'q':
-            window.clear()
-            return False
-        elif int(tracks_num) > max_track_number:
+        try:
+            if int(tracks_num) > max_track_number:
+                window.clear()
+                window.addstr(
+                    7, 10, f"Tracks number cannot be > {max_track_number}")
+                window.refresh()
+                window.getch()
+                continue
+            elif tracks_num in numbers:
+                window.clear()
+                return int(tracks_num)
+        except Exception:
             window.clear()
             window.addstr(
                 7, 10, f"Tracks number cannot be > {max_track_number}")
             window.refresh()
             window.getch()
-            continue
-        elif tracks_num in numbers:
-            window.clear()
-            return int(tracks_num)
+    window.clear()
+    return False
 
 
 """Screen for start hour input"""
@@ -363,9 +379,8 @@ def hour_input_interface(win, text, data, day):
             win.clear()
             win.addstr(7, 17, "Wrong hour format")
             win.getch()
-    if choice == 'q':
-        win.clear()
-        return False
+    win.clear()
+    return False
 
 
 """First screen for adding clients to swimmingpool

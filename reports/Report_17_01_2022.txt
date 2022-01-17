@@ -1,2 +1,8 @@
 Day, Time, Client, Number, Price
-Friday, 8-10, Kid, 3, 72.0
+Wednesday, 8-9, Disabled, 3, 12.0
+Tuesday, 14-16, Disabled, 10, 100
+Wednesday, 8-12, Disabled, 10, 160.0
+Tuesday, 13-17, swimming_school, 1, 96.0
+Thursday, 11-16, Student, 10, 400.0
+Tuesday, 14-16, Disabled, 10, 100
+Thursday, 11-12, swimming_school, 2, 48.0
