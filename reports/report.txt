@@ -1,2 +1,3 @@
 Day, Time, Client, Number, Price
 Tuesday, 12-14, Disabled, 10, 80.0
+Thursday, 13-14, swimming_school, 1, 30
