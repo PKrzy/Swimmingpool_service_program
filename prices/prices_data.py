@@ -1,9 +1,15 @@
 import json
 
-"""Load data from file as json"""
+
+def get_path_prices():
+    with open("config.json", 'r') as fh:
+        path = json.load(fh)["prices_path"]
+    return path
 
 
 def load_prices(path):
+    """Load data from file as json"""
+
     with open(path, 'r') as fp:
         new_data = json.load(fp)
     return new_data
@@ -11,7 +17,7 @@ def load_prices(path):
 
 class DataPrices:
     def __init__(self):
-        self._prices_path = 'prices/prices.json'
+        self._prices_path = get_path_prices()
         with open(self.prices_path(), 'r') as fp:
             data = json.load(fp)
         self._data = data

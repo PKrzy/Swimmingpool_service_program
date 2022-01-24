@@ -1,0 +1,2 @@
+Day, Time, Client, Number, Price
+Tuesday, 18-19, Kid_under_5_years_old, 1, 12

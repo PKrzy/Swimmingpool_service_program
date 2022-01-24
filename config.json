@@ -1,0 +1,6 @@
+{
+    "ws_path": "work_schedule/work_schedule.json",
+    "prices_path": "prices/prices.json",
+    "attributes_path": "attributes/swimmingpool_attributes.txt",
+    "report_path": "reports/report.txt"
+}

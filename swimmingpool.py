@@ -19,9 +19,9 @@ class Swimmingpool:
     def name(self):
         return self._name
 
-    """Change swimming pool name"""
-
     def set_name(self, new_name):
+        """Change swimming pool name"""
+
         self.attributes().change_name(new_name)
 
     def attributes(self):
@@ -42,14 +42,14 @@ class Swimmingpool:
     def tracks_number(self):
         return self._tracks_number
 
-    """Change swimming tracks number"""
-
     def set_tracks_number(self, new_tracks_number):
+        """Change swimming tracks number"""
+
         self.attributes().change_tracks(new_tracks_number)
 
-    """Check if there is space at the specified time."""
-
     def check_seat(self, start_time, hours_number, current_day, number):
+        """Check if there is space at the specified time."""
+
         hours_dict = self.work_schedule()[current_day]
         start_hour = int(start_time)
         number_cycles = int(hours_number)
@@ -59,11 +59,10 @@ class Swimmingpool:
             if S_a_hour[0] + number > self.space():
                 return False
 
-    """Check if there is space and free tracks at the specified time."""
-
     def check_seat_and_tracks(
             self, start_time, hours_number,
             current_day, number_of_tracks):
+        """Check if there is space and free tracks at the specified time."""
 
         hours_dict = self.work_schedule()[current_day]
         start_hour = int(start_time)
@@ -76,9 +75,9 @@ class Swimmingpool:
                     S_a_hour[1] + number_of_tracks > self.max_tracks():
                 return False
 
-    """ Check the nearest free term."""
-
     def check_free_term(self, start_time, hours_number, current_day, number):
+        """ Check the nearest free term."""
+
         hours_dict = self.work_schedule()[current_day]
         start_hour = int(start_time)
         number_cycles = int(hours_number)
@@ -127,9 +126,9 @@ class Swimmingpool:
 
         return f'Next free term {next_day} {free_hour}'
 
-    """Adds people to swimming pool according to day and time."""
-
     def add_person(self, start_time, hours_number, current_day, number=1):
+        """Adds people to swimming pool according to day and time."""
+
         hours_dict = self.work_schedule()[current_day]
         start_hour = int(start_time)
         number_cycles = int(hours_number)
@@ -143,11 +142,10 @@ class Swimmingpool:
         self.work_schedule()[current_day] = hours_dict
         self.data().save_data(self.work_schedule())
 
-    """Adds swimming_school to swimming pool according to day and time."""
-
     def add_swimming_school(
             self, start_time, hours_number,
             current_day, number_of_tracks):
+        """Adds swimming_school to swimming pool according to day and time."""
 
         hours_dict = self.work_schedule()[current_day]
         start_hour = int(start_time)
@@ -165,12 +163,10 @@ class Swimmingpool:
         self.data().save_data(self.work_schedule())
 
 
-"""Check free term in selected day."""
-
-
 def check_current_day_hours(
         start_hour, number_cycles, hours_dict,
         number, space, data, current_day):
+    """Check free term in selected day."""
 
     day_end_hour = int(last_hour(data, current_day))
     free_positions = 0
@@ -192,12 +188,10 @@ def check_current_day_hours(
     return free_positions, free_hour
 
 
-"""Check free hours in day."""
-
-
 def check_next_day_hours(
         free_positions, free_hour, number_cycles,
         day_start_hour, day_end_hour, hours_dict, number, space):
+    """Check free hours in day."""
 
     """Iterate hours of the day to find free term."""
 
@@ -217,12 +211,10 @@ def check_next_day_hours(
     return free_hour, free_positions
 
 
-"""Check free term in another day."""
-
-
 def check_next_day(
         free_positions, free_hour, number_cycles, current_day,
         data, work_schedule, number, space):
+    """Check free term in another day."""
 
     """Iterate days in week to find day with free hours."""
 
@@ -253,13 +245,11 @@ def check_next_day(
     return free_hour, free_positions, next_day
 
 
-"""Check free term for swimming school in selected day."""
-
-
 def check_current_hours_add_tracks(
         start_hour, number_cycles, hours_dict,
         number, number_of_tracks, space, data,
         current_day, max_tracks):
+    """Check free term for swimming school in selected day."""
 
     day_end_hour = int(last_hour(data, current_day))
     free_positions = 0
@@ -285,13 +275,11 @@ def check_current_hours_add_tracks(
     return free_positions, free_hour
 
 
-"""Check free hours and tracks in day."""
-
-
 def check_next_day_hours_and_tracks(
         free_positions, free_hour, number_cycles,
         day_start_hour, day_end_hour, hours_dict,
         number, space, number_of_tracks, max_tracks):
+    """Check free hours and tracks in day."""
 
     """Iterate hours of the day to find free term."""
 
@@ -312,13 +300,11 @@ def check_next_day_hours_and_tracks(
     return free_hour, free_positions
 
 
-"""Check free term for swimming school in another day."""
-
-
 def check_next_day_sw_school(
         free_positions, free_hour, number_cycles,
         current_day, data, work_schedule, number,
         space, number_of_tracks, max_tracks):
+    """Check free term for swimming school in another day."""
 
     """Iterate days in week to find day with free hours and tracks"""
 

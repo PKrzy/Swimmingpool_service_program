@@ -1,10 +1,15 @@
 import json
 
 
-"""Load new work schedule data as tuple"""
+def get_path():
+    with open("config.json", 'r') as fh:
+        path = json.load(fh)["ws_path"]
+    return path
 
 
 def load_work_schedule(path):
+    """Load new work schedule data as tuple"""
+
     file = open(path, 'r')
     file.readline()
     work_dict = {}
@@ -18,10 +23,10 @@ def load_work_schedule(path):
 
 class DataWorkSchedule:
 
-    """During start program open current work schedule."""
-
     def __init__(self):
-        self._ws_path = 'work_schedule/work_schedule.json'
+        """During start program open current work schedule."""
+
+        self._ws_path = get_path()
         with open(self.ws_path(), 'r') as fp:
             data = json.load(fp)
         self._data = data
@@ -32,15 +37,15 @@ class DataWorkSchedule:
     def data(self):
         return self._data
 
-    """Save changes in data."""
-
     def save_data(self, new_data):
+        """Save changes in data."""
+
         with open(self.ws_path(), 'w') as file_handle:
             json.dump(new_data, file_handle, indent=4)
 
-    """Load new work schedule in specific format"""
-
     def load_new_work_schedule(self, path):
+        """Load new work schedule in specific format"""
+
         data = {}
         dict_days_hours = load_work_schedule(path)
 
@@ -59,9 +64,9 @@ class DataWorkSchedule:
         with open(self.ws_path(), 'w') as file_handle:
             json.dump(data, file_handle, indent=4)
 
-    """Clear day values"""
-
     def clear_day(self, day):
+        """Clear day values"""
+
         hours = self.data()[day]
         for hour in hours:
             hours[hour] = [0, 0]

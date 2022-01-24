@@ -1,10 +1,9 @@
 from datetime import datetime
 
 
-"""Check if input is in designated range"""
-
-
 def hours_range(data, current_day, input_hour):
+    """Check if input is in designated range"""
+
     f_hour = int(first_hour(data, current_day))
     e_hour = last_hour(data, current_day)
     e_hour_fix = int(e_hour) + 1
@@ -15,45 +14,40 @@ def hours_range(data, current_day, input_hour):
         return False
 
 
-"""Give time interval number"""
-
-
 def time_interval(day, data, start_hour):
+    """Give time interval number"""
+
     end_hour = int(last_hour(data, day)) + 1
     max_number_of_hours = end_hour - int(start_hour)
     return max_number_of_hours
 
 
-"""Give last hour in day"""
-
-
 def last_hour(data, current_day):
+    """Give last hour in day"""
+
     last_hour = list(data.data()[current_day])[-1]
     return last_hour
 
 
-"""Give first hour in day"""
-
-
 def first_hour(data, current_day):
+    """Give first hour in day"""
+
     first_hour = list(data.data()[current_day])[0]
     return first_hour
 
 
-"""Give choosed day schedule"""
-
-
 def current_day_schedule(data, current_day):
+    """Give choosed day schedule"""
+
     f_hour = first_hour(data, current_day)
     e_hour = last_hour(data, current_day)
     e_hour_fix = int(e_hour) + 1
     return f'{current_day} open {f_hour} - {e_hour_fix}'
 
 
-"""Return days and vales dictionaries"""
-
-
 def days():
+    """Return days and vales dictionaries"""
+
     days_list = [
         'Monday', 'Tuesday', 'Wednesday',
         'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -63,34 +57,30 @@ def days():
     return day_value_dict, value_day_dict
 
 
-"""Give current time"""
-
-
 def current_time():
+    """Give current time"""
+
     now = datetime.now().strftime('%A %H:%M')
     return now
 
 
-"""Give current day"""
-
-
 def current_day():
+    """Give current day"""
+
     c_day = datetime.now().strftime('%A')
     return c_day
 
 
-"""Give current hour"""
-
-
 def current_day_hour():
+    """Give current hour"""
+
     c_day_hour = datetime.now().strftime('%H')
     return c_day_hour
 
 
-"""Check if hour is a number"""
-
-
 def check_input_hour(fix_input):
+    """Check if hour is a number"""
+
     try:
         if len(fix_input) <= 2:
             if type(int(fix_input)) == int:
@@ -101,10 +91,9 @@ def check_input_hour(fix_input):
         return False
 
 
-"""Give expected day"""
-
-
 def days_dict(day_number):
+    """Give expected day"""
+
     day_dict = {'1': 'Monday',
                 '2': 'Tuesday',
                 '3': 'Wednesday',

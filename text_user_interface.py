@@ -7,10 +7,9 @@ from time_functions import days_dict, current_time, time_interval
 from work_schedule.work_schedule_data import DataWorkSchedule
 
 
-"""Input for adding hours number"""
-
-
 def my_raw_input(window, y, x, text):
+    """Input for adding hours number"""
+
     window.addstr(5, 17, text)
     window.addstr(y, x, 'Hour format - xx or x')
     curses.echo()
@@ -20,10 +19,9 @@ def my_raw_input(window, y, x, text):
     return fix_input
 
 
-"""Input for adding vizualized text"""
-
-
 def menu_functions_input(window, y, x):
+    """Input for adding vizualized text"""
+
     curses.echo()
     window.refresh()
     input = window.getstr(y + 1, x)
@@ -31,28 +29,27 @@ def menu_functions_input(window, y, x):
     return fix_input
 
 
-"""Initialize new window"""
-
-
 def new_window(begin_y, begin_x, height, width):
+    """Initialize new window"""
+
     win = curses.newwin(height, width, begin_y, begin_x)
     return win
 
 
-"""Main screen"""
-
-
 def add_first_screen(window):
+    """Main screen"""
+
     window.addstr(1, 1, "Choose number")
     window.addstr(2, 1, "1. Menu")
     window.addstr(3, 1, "2. Add People")
     window.addstr(4, 1, "3. Add Swimming School")
-
-
-"""Menu screen"""
+    window.addstr(5, 1, "4. Space and tracks preview")
 
 
 def add_menu_screen(window):
+    """Menu screen"""
+
+    window.clear()
     window.addstr(1, 1, "Choose number")
     window.addstr(2, 1, "1. Change swimmingpool name")
     window.addstr(3, 1, "2. Change swimmingpool number of tracks")
@@ -69,10 +66,9 @@ def add_menu_screen(window):
     return False
 
 
-"""Change name screen"""
-
-
 def name_screen(win, pool):
+    """Change name screen"""
+
     win.clear()
     win.addstr(7, 12, "Input new name")
     choice = menu_functions_input(win, 7, 12)
@@ -88,10 +84,9 @@ def name_screen(win, pool):
         return False
 
 
-"""Change tracks screen"""
-
-
 def tracks_screen(win, pool):
+    """Change tracks screen"""
+
     choice = ''
     while choice != 'q':
         win.clear()
@@ -106,18 +101,18 @@ def tracks_screen(win, pool):
             win.getch()
             return
         except Exception:
-            win.clear()
-            win.addstr(7, 6, "Number of tracks must be integer number")
-            win.refresh()
-            win.getch()
+            if choice != 'q':
+                win.clear()
+                win.addstr(7, 6, "Number of tracks must be integer number")
+                win.refresh()
+                win.getch()
     win.clear()
     return False
 
 
-"""Screen for adding hours number"""
-
-
 def number_hours_screen(win, day, data, start_hour):
+    """Screen for adding hours number"""
+
     choice = ''
     while choice != 'q':
         win.clear()
@@ -136,18 +131,18 @@ def number_hours_screen(win, day, data, start_hour):
             win.refresh()
             return input_hours_num
         except Exception:
-            win.clear()
-            win.addstr(7, 6, "Number of hours must be integer number")
-            win.refresh()
-            win.getch()
+            if choice != 'q':
+                win.clear()
+                win.addstr(7, 6, "Number of hours must be integer number")
+                win.refresh()
+                win.getch()
     win.clear()
     return False
 
 
-"""Screen for changing work schedule file"""
-
-
 def work_schedule_file_screen(win, data):
+    """Screen for changing work schedule file"""
+
     win.clear()
     win.addstr(7, 12, "Input work_schedule file path")
     choice = menu_functions_input(win, 7, 12)
@@ -170,10 +165,25 @@ def work_schedule_file_screen(win, data):
     return False
 
 
-"""Screen for changing prices file"""
+def free_terms_data_screen(day, data, pool, win):
+    """Free space and tracks screen"""
+
+    current_day_hours = data.data()[day]
+    text = f'   {day}, Free Space, Free Tracks\n'
+    for hour in current_day_hours:
+        free_space = pool.space() - current_day_hours[hour][0]
+        free_tracks = pool.max_tracks() - current_day_hours[hour][1]
+        line = f'      {hour}:       {free_space},           {free_tracks}\n'
+        text += line
+    win.clear()
+    win.addstr(1, 1, text)
+    win.refresh()
+    win.getch()
 
 
 def prices_file_screen(win, prices):
+    """Screen for changing prices file"""
+
     win.clear()
     win.addstr(7, 12, "Input prices file path")
     choice = menu_functions_input(win, 7, 12)
@@ -181,7 +191,7 @@ def prices_file_screen(win, prices):
         try:
             prices.load_new_prices(choice)
             win.clear()
-            win.addstr(7, 17, "Please restart program")
+            win.addstr(7, 17, "Prices changed")
             win.refresh()
             win.getch()
             return
@@ -197,10 +207,9 @@ def prices_file_screen(win, prices):
     return False
 
 
-"""Chose day screen"""
-
-
 def days_of_the_week(window):
+    """Chose day screen"""
+
     window.clear()
     window.addstr(1, 1, "Choose day")
     window.addstr(2, 1, "1. Monday")
@@ -222,10 +231,9 @@ def days_of_the_week(window):
     return False
 
 
-"""Screen for choosing customer"""
-
-
 def people_screen(window, prices_data, day):
+    """Screen for choosing customer"""
+
     window.clear()
     clients = {
         '1': 'Adult',
@@ -242,7 +250,7 @@ def people_screen(window, prices_data, day):
         3, 1, f"2. Kid : {prices_data.get_price('Kid', day)}")
     window.addstr(
         4, 1,
-        f"3. {clients['1']} : {prices_data.get_price(clients['1'], day)}")
+        f"3. {clients['3']} : {prices_data.get_price(clients['3'], day)}")
     window.addstr(
         5, 1, f"4. Disabled : {prices_data.get_price('Disabled', day)}")
     window.addstr(
@@ -263,11 +271,11 @@ def people_screen(window, prices_data, day):
     return False
 
 
-"""Screen for showing current ticket cost"""
-
-
 def cost_screen(win, price, num, day, input, prices, integer):
+    """Screen for showing current ticket cost"""
+
     win.clear()
+    curses.noecho()
     promo_hour = prices.get_till_hour_promo(day)
     actuall_hour = int(input)
     if actuall_hour < promo_hour:
@@ -291,10 +299,9 @@ def cost_screen(win, price, num, day, input, prices, integer):
     return False, ticket_cost
 
 
-"""Screen for adding number of people"""
-
-
 def number_of_people(window, pool):
+    """Screen for adding number of people"""
+
     max_num = pool.space() + 1
     numbers = [str(item) for item in list(range(1, max_num))]
     number_of_people = ''
@@ -306,10 +313,11 @@ def number_of_people(window, pool):
         try:
             int(number_of_people)
         except Exception:
-            window.clear()
-            window.addstr(7, 14, "Wrong number of people")
-            window.refresh()
-            window.getch()
+            if number_of_people != 'q':
+                window.clear()
+                window.addstr(7, 14, "Wrong number of people")
+                window.refresh()
+                window.getch()
             continue
         if number_of_people in numbers:
             window.clear()
@@ -323,10 +331,9 @@ def number_of_people(window, pool):
     return False
 
 
-"""Screen for adding number of tracks"""
-
-
 def number_of_tracks(window, pool):
+    """Screen for adding number of tracks"""
+
     max_track_number = pool.max_tracks()
     numbers = [str(item) for item in list(range(1, int(max_track_number) + 1))]
     window.addstr(
@@ -349,19 +356,19 @@ def number_of_tracks(window, pool):
                 return int(tracks_num)
         except Exception:
             window.clear()
-            window.addstr(
-                7, 10, f"Tracks number cannot be > {max_track_number}")
-            window.refresh()
-            window.getch()
-            window.clear()
+            if tracks_num != 'q':
+                window.addstr(
+                    7, 10, f"Tracks number cannot be > {max_track_number}")
+                window.refresh()
+                window.getch()
+                window.clear()
     window.clear()
     return False
 
 
-"""Screen for start hour input"""
-
-
 def hour_input_interface(win, text, data, day):
+    """Screen for start hour input"""
+
     choice = ''
     while choice != 'q':
         win.clear()
@@ -384,12 +391,11 @@ def hour_input_interface(win, text, data, day):
     return False
 
 
-"""First screen for adding clients to swimmingpool
-It gains input from user
-"""
-
-
 def add_people_screen(win, second_win, price_data, pool):
+    """First screen for adding clients to swimmingpool
+    It gains input from user
+    """
+
     num = days_of_the_week(win)
     if false_argument(win, second_win, num) is False:
         return False
@@ -421,10 +427,9 @@ def add_people_screen(win, second_win, price_data, pool):
     return funct_list
 
 
-"""Check return arguments for functions"""
-
-
 def false_argument(win, second_win, argument):
+    """Check return arguments for functions"""
+
     if argument is False:
         win.clear()
         second_win.clear()
@@ -432,12 +437,11 @@ def false_argument(win, second_win, argument):
     return True
 
 
-"""First screen for adding swimming schools to swimmingpool
-It gains input from user
-"""
-
-
 def add_sw_school_screen(win, second_win, price_data, pool):
+    """First screen for adding swimming schools to swimmingpool
+    It gains input from user
+    """
+
     num = days_of_the_week(win)
     if false_argument(win, second_win, num) is False:
         return False
@@ -467,13 +471,11 @@ def add_sw_school_screen(win, second_win, price_data, pool):
     return funct_list
 
 
-"""Second screen for adding clients to swimmingpool
-It gives information about space and adds client to data"""
-
-
 def add_people_screen_2p(
         win, input_stime, input_hours_num, day, num_p, price,
         prices, integer, pool, output, report, client):
+    """Second screen for adding clients to swimmingpool
+    It gives information about space and adds client to data"""
 
     if output is False:
         win.clear()
@@ -497,13 +499,11 @@ def add_people_screen_2p(
             win.getch()
 
 
-"""Second screen for adding swimming schools to swimmingpool.
-It gives information about space, tracks and adds client to data"""
-
-
 def add_sw_school_screen_2p(
         win, input_stime, input_hours_num, day, tracks_num, price,
         prices, integer, pool, output, report, client):
+    """Second screen for adding swimming schools to swimmingpool.
+    It gives information about space, tracks and adds client to data"""
 
     if output is False:
         win.clear()
@@ -530,10 +530,8 @@ def add_sw_school_screen_2p(
             win.getch()
 
 
-"""Main function. Bring up all screens"""
-
-
 def start_screen():
+    """Main function. Bring up all screens"""
 
     """Initialize screens"""
 
@@ -627,6 +625,12 @@ def start_screen():
             add_sw_school_screen_2p(
                 win, flsw[0], flsw[1], flsw[5], flsw[2],
                 flsw[3], prices, integer, pool, output, report, flsw[4])
+
+        elif input == '4':
+            win.clear()
+            num = days_of_the_week(win)
+            day = days_dict(num)
+            free_terms_data_screen(day, data, pool, win)
 
     """End session"""
 
